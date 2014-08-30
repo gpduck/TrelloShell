@@ -1,6 +1,6 @@
 Properties {
   if(!$OutDir) {
-    $OutDir = "Bin"
+    $OutDir = "bin"
   }
 
   if(!$ProjectDir) {
@@ -20,7 +20,7 @@ Properties {
   }
 }
 
-Task default -Depends Pack
+Task default -Depends PackageRestore
 
 function Get-Nuget {
   $Nuget = (Join-Path $ProjectDir -ChildPath ".nuget\nuget.exe")
@@ -28,27 +28,40 @@ function Get-Nuget {
   return $Nuget
 }
 
-Task Clean {
+Task Clean -Depends CleanPackages {
   if(Test-Path $TargetDir) {
-    rm -Recurse $TargetDir
+    rm -Recurse $TargetDir -Force
   }
-  if(Test-Path (Join-Path $BasePath "bin")) {
-    rm -Recurse (Join-Path $BasePath "bin")
+}
+
+Task CleanPackages {
+  $PackagesFolder = Join-Path $ProjectDir "Packages"
+  $BinFolder = Join-Path $Basepath "bin"
+  $Routes = Join-Path $BasePath "PowerShellRoutes"
+
+  $PackagesFolder,$BinFolder,$Routes | %{
+    if(Test-Path $_) {
+        rm $_ -Recurse
+    }
   }
 }
     
-Task PackageRestore {
+Task PackageRestore -Depends CleanPackages {
   $Nuget = Get-Nuget
   Assert ([Reflection.Assembly]::LoadFile($Nuget)) "Unable to load nuget.exe assembly"
 
   $PackagesDir = Join-Path $ProjectDir "packages"
   $SolutionOutputDir = Join-Path $BasePath "bin"
+  $PackagesConfig = Join-Path $ProjectDir "packages.config"
 
   if(!(Test-Path $SolutionOutputDir)) {
     mkdir $SolutionOutputDir > $null
   }
 
-  exec { &$Nuget install TrelloNet -OutputDirectory $PackagesDir }
+  exec { &$Nuget restore $PackagesConfig -OutputDirectory $PackagesDir }
+  exec { &$Nuget install PowerShellRoutes -OutputDirectory $BasePath -ExcludeVersion }
+  #exec { &$Nuget install Newtonsoft.Json -Version 6.0.4 -OutputDirectory $PackagesDir }
+  #exec { &$Nuget install TrelloNet -Version 0.6.2 -OutputDirectory $PackagesDir }
 
   $TargetFramework = [Nuget.VersionUtility]::DefaultTargetFramework
 
