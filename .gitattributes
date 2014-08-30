@@ -2,9 +2,9 @@
 * text=auto
 
 # Custom for PowerShell
-*.ps1    text diff
-*.psm1   text diff
-*.psd1   text diff
+*.ps1    text diff filter=psascii
+*.psm1   text diff filter=psascii
+*.psd1   text diff filter=psascii
 
 # Custom for Visual Studio
 *.cs     diff=csharp
