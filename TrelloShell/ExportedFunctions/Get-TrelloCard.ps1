@@ -3,6 +3,9 @@ function Get-TrelloCard {
     [Parameter(Mandatory=$True,ValueFromPipeline=$True,ParameterSetName='ForBoard')]
     [TrelloNet.IBoardId]$board,
 
+    [Parameter(Mandatory=$False,ValueFromPipeline=$True,ParameterSetName='ForBoard')]
+    [TrelloNet.BoardCardFilter]$BoardCardFilter,
+
     [Parameter(Mandatory=$True,ValueFromPipeline=$True,ParameterSetName='ForList')]
     [TrelloNet.IListId]$list,
 
@@ -31,6 +34,10 @@ function Get-TrelloCard {
       } else {
         $True
       }
+    }
+    if($PSBoundParameters.ContainsKey("BoardCardFilter")) {
+        $PSBoundParameters.Remove("BoardCardFilter") > $Null
+        $PSBoundParameters.Add("Filter", $BoardCardFilter)
     }
     Invoke-TrelloObjectMethod -Object $Trello.Cards -Name $PSCmdlet.ParameterSetName -Parameters $PSBoundParameters | where -FilterScript $WhereScript
   }
