@@ -51,7 +51,7 @@ Description = 'Manipulate Trello with PowerShell'
 # RequiredModules = @()
 
 # Assemblies that must be loaded prior to importing this module
-# RequiredAssemblies = @()
+RequiredAssemblies = @('.\bin\Newtonsoft.Json.dll','.\bin\TrelloNet.dll')
 
 # Script files (.ps1) that are run in the caller's environment prior to importing this module.
 # ScriptsToProcess = @()
@@ -63,7 +63,7 @@ Description = 'Manipulate Trello with PowerShell'
 # FormatsToProcess = @()
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-# NestedModules = @()
+NestedModules = @('PowerShellRoutes')
 
 # Functions to export from this module
 # FunctionsToExport = 'Get-Function'
@@ -93,5 +93,4 @@ Description = 'Manipulate Trello with PowerShell'
 # DefaultCommandPrefix = ''
 
 }
-
 

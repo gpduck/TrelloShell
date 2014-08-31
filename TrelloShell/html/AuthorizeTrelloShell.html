@@ -1,0 +1,11 @@
+<html>
+  <head><title>TrelloShell Authorization</title></head>
+<body>
+  <script type="text/javascript">
+    var xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET", ("ExtractToken?token=" + window.location.hash.substring(7)), false);
+	xmlhttp.send();
+	document.write(xmlhttp.responseText);
+  </script>
+</body>
+</html>
