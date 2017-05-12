@@ -1,0 +1,16 @@
+FRAMEWORK: NET45
+NUGET
+  remote: https://www.nuget.org/api/v2
+    Manatee.Json (6.0.2)
+    Manatee.Trello (1.18.2)
+    Manatee.Trello.ManateeJson (1.8.1)
+      Manatee.Json (>= 6.0 < 7.0)
+      Manatee.Trello (>= 1.16 < 2.0)
+    Manatee.Trello.WebApi (1.1.0.1)
+      Manatee.Trello (>= 1.16 < 2.0)
+      Microsoft.AspNet.WebApi.Core (>= 5.2.3)
+    Microsoft.AspNet.WebApi.Client (5.2.3)
+      Newtonsoft.Json (>= 6.0.4)
+    Microsoft.AspNet.WebApi.Core (5.2.3)
+      Microsoft.AspNet.WebApi.Client (>= 5.2.3)
+    Newtonsoft.Json (6.0.8)

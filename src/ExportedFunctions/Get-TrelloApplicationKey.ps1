@@ -4,4 +4,3 @@ function Get-TrelloApplicationKey {
     ConvertFrom-Json (Get-Content -Raw -Path $AppDataPath)
   }
 }
-Export-ModuleMember -Function Get-TrelloApplicationKey

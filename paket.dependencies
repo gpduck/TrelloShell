@@ -1,0 +1,7 @@
+framework: net45
+source https://www.nuget.org/api/v2
+
+nuget Manatee.Trello
+nuget Manatee.Trello.ManateeJson
+nuget Manatee.Trello.WebApi
+nuget Newtonsoft.Json ~> 6.0.4

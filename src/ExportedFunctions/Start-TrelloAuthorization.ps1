@@ -1,14 +1,16 @@
 function Start-TrelloAuthorization {
   param(
     [ValidateNotNullOrEmpty()]
-    [TrelloNet.Scope]$Scope = [TrelloNet.Scope]::ReadWrite,
+    [ValidateSet("ReadOnly","ReadOnlyAccount","ReadWrite","ReadWriteAccount")]
+    $Scope = "ReadWrite",
 
     [ValidateNotNullOrEmpty()]
-    [TrelloNet.Expiration]$Expiration = [TrelloNet.Expiration]::oneday,
+    [ValidateSet("OneDay","OneHour","ThirtyDays","never")]
+    $Expiration = "OneDay",
 
     [int]$LocalPort = 8080
   )
-  $Trello = Get-Trello
+  $TrelloAuthorization = [Manatee.Trello.TrelloAuthorization]
   $Key = Get-TrelloApplicationKey
 
   switch ($Scope) {
@@ -60,6 +62,5 @@ function Start-TrelloAuthorization {
   #$Trello.GetAuthorizationUrl("TrelloShell", $Scope, $Expiration)
   Start-Process $Url
   $Token = Start-WebServer -IPAddress "localhost" -Port $LocalPort -Routes @{"AuthorizeTrelloShell.html"=$AuthorizationCallback; "ExtractToken"=$ExtractToken }
-  $Trello.Authorize($Token)
+  $TrelloAuthorization::Default.UserToken = $Token
 }
-Export-ModuleMember -Function Start-TrelloAuthorization

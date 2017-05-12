@@ -18,4 +18,3 @@ function Set-TrelloApplicationKey {
     Secret = $Secret
   } | ConvertTo-Json | Set-Content -Path $AppDataPath
 }
-Export-ModuleMember -Function Set-TrelloApplicationKey
